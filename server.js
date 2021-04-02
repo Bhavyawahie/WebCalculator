@@ -6,11 +6,24 @@ app.use(express.urlencoded());
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html");
 });
-app.post("/",(req, res) =>{
-    let v1 = parseInt(req.body.n1);
-    let v2 = parseInt(req.body.n2);
-    let result = v1 + v2;
-    res.send("Answer = " + result);
+
+app.get("/calc/:op",(req, res) =>{
+    let var1 = parseInt(req.query.n1);
+    let var2 = parseInt(req.query.n2);
+    let result;
+    switch(req.params.op){
+    case "add" : result = var1 + var2; break;
+    case "sub":  result = var1 - var2; break;
+    case "mult": result = var1 * var2; break;
+    case "div":  result = var1 / var2; break;
+    }
+    res.send(`
+    <html> 
+    <body>
+        <h1>Result = ${result}</h1>
+    </body>
+    </html>
+    `);
 });
 
 
